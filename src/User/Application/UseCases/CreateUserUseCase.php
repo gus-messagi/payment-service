@@ -7,6 +7,7 @@ namespace Src\User\Application\UseCases;
 use Log;
 use Src\Authentication\Application\Ports\CreateClientKeyPort;
 use Src\Authentication\Application\UseCases\CreateClientKeyUseCase;
+use Src\Shared\Domain\ValueObjects\UserClientKey;
 use Src\User\Application\Dtos\Input\CreateUserInput;
 use Src\User\Domain\Entities\User;
 use Src\User\Infra\Repositories\UserRepositoryImpl;
@@ -27,11 +28,13 @@ final class CreateUserUseCase
         $userFound = $this->userRepository->findByDocument($input->document);
 
         if ($userFound) {
-            throw new \BadMethodCallException(sprintf("Document already registered %s", $input->document));
+            throw new \BadMethodCallException(sprintf("Document or Email already registered %s", $input->document));
         }
 
         ["plain" => $plain, "hashed" => $hashed] = $this->createClientKeyPort->handle();
-        $user = new User($input->name, $input->email, $input->document, $hashed);
+
+        $clientKey = new UserClientKey($hashed);
+        $user = new User($input->name, $input->email, $input->document, $clientKey);
 
         $this->userRepository->save($user);
 
