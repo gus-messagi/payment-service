@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Src\User\Infra\Repositories;
 
+use Src\Shared\Domain\ValueObjects\UserClientKey;
 use Src\User\Domain\Entities\User;
 use Src\User\Domain\Repositories\UserRepository;
 use Src\User\Domain\ValueObjects\UserDocument;
@@ -43,5 +44,21 @@ final class UserRepositoryImpl implements UserRepository
             "email" => $user->email->getValue(),
             "client_key" => $user->clientKey,
         ]);
+    }
+
+    public function findByClientKey(UserClientKey $clientKey): ?User
+    {
+        $userFound = $this->model->where('client_key', $clientKey->getValue())->first();
+
+        if (!$userFound) {
+            return null;
+        }
+
+        return new User(
+            $userFound->name,
+            new UserEmail($userFound->email),
+            new UserDocument($userFound->document),
+            $userFound->client_key,
+        );
     }
 }
