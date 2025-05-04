@@ -31,6 +31,7 @@ final class UserRepositoryImpl implements UserRepository
             $userFound->name,
             new UserEmail($userFound->email),
             new UserDocument($userFound->document),
+            $userFound->client_key,
         );
     }
 
@@ -40,6 +41,7 @@ final class UserRepositoryImpl implements UserRepository
             "name" => $user->name,
             "document" => $user->document->getValue(),
             "email" => $user->email->getValue(),
+            "client_key" => $user->clientKey,
         ]);
     }
 }

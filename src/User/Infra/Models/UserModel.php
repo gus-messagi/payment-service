@@ -12,8 +12,7 @@ final class UserModel extends Model
     protected $fillable = [
         "name",
         "email",
-        "document"
+        "document",
+        "client_key",
     ];
-
-
 }

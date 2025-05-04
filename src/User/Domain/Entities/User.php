@@ -11,11 +11,13 @@ final class User
     public string $name;
     public UserEmail $email;
     public UserDocument $document;
+    public string $clientKey;
 
-    public function __construct(string $name, UserEmail $email, UserDocument $document)
+    public function __construct(string $name, UserEmail $email, UserDocument $document, string $clientKey)
     {
         $this->name = $name;
         $this->email = $email;
         $this->document = $document;
+        $this->clientKey = $clientKey;
     }
 }

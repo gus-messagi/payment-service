@@ -32,6 +32,6 @@ class CreateUserController extends Controller
 
         $response = $this->useCase->handle($dto);
 
-        return new Response($email->getValue(), 200);
+        return new Response($response, 201);
     }
 }
