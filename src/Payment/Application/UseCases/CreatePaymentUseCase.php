@@ -30,6 +30,7 @@ final class CreatePaymentUseCase implements CreatePaymentPort
         $paymentCreated = $this->repository->save($payment);
 
         try {
+            // TODO: Outbox
             $this->publishPaymentPort->publish($paymentCreated);
             $paymentCreated->status = PaymentStatusEnum::PROCESSING;
 

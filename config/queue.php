@@ -13,6 +13,29 @@ return [
     |
     */
 
+    'rabbitmq' => [
+        'driver' => 'rabbitmq',
+        'hosts' => [
+            [
+                'host' => env('RABBITMQ_HOST', '127.0.0.1'),
+                'port' => env('RABBITMQ_PORT', 5672),
+                'user' => env('RABBITMQ_USER', 'admin'),
+                'password' => env('RABBITMQ_PASSWORD', 'admin'),
+                'vhost' => env('RABBITMQ_VHOST', '/'),
+            ],
+        ],
+        'options' => [
+            'queue' => [
+                'exchange' => [
+                    'name' => env('RABBITMQ_EXCHANGE_NAME', null),
+                    'type' => 'direct',
+                    'declare' => true,
+                ],
+            ],
+        ],
+        'worker' => env('RABBITMQ_WORKER', 'default'),
+    ],
+
     'default' => env('QUEUE_CONNECTION', 'database'),
 
     /*
